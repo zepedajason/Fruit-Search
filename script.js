@@ -1,3 +1,4 @@
+const searchContainer = document.querySelector('.search-container');
 const input = document.querySelector('#fruit');
 const suggestions = document.querySelector('.suggestions ul');
 
@@ -22,23 +23,43 @@ function search(str) {
 //will display the result list when "keyup" event is triggered
 function searchHandler(e) {
 	// TODO
+	//will initialize key that is pressed by user to str, then use search function to return a suggestion result list
 	let str = e.target.value;
-	console.log(str);
+	let results = search(str);
 
-}
+	//will check if user input is true "containing any string" and will add show class to display results
+	if(input.value){
+		searchContainer.classList.add('show');
+	showSuggestions(results);
+	} else {//else if no user input "empty" will hide results from displaying
+		searchContainer.classList.remove('show');
+	}
+	
+	
+ }
 
 //take list created in search() to make drop down list in search bar
-function showSuggestions(results, inputVal) {
-    //let resultsList = search(inputVal);
+function showSuggestions(results) {
+    // TODO
+	//creating new arry with map method and making a html list element with the results
+	let suggestionItems = results.map(item => `<li>${item}</li>`).join("");
+	suggestions.innerHTML = suggestionItems;
 
-	// TODO
+	//adding class of show to display results
+	searchContainer.classList.add('show');
 }
 
-//
+//populate search bar with the suggestion
 function useSuggestion(e) {
 	// TODO
+	//clicking a list item will trigger event listener, the clicked item will be initialized to str, then added to input as the value. 
+	//after input.value is updated with clicked fruit, removing show class to hide drop down list
+	let str = e.target.innerHTML;
+	input.value = str;
+	searchContainer.classList.remove('show');
 }
 
 //Event listener for key strokes
 input.addEventListener('keyup', searchHandler);
 suggestions.addEventListener('click', useSuggestion);
+	
