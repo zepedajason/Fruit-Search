@@ -13,6 +13,7 @@ const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackb
 function search(str) {
 	let results = [];
 	let lowerCase = str.toLowerCase();
+	
 	// TODO
 	//will return array with fruits that contain str anywhere in the whole name
 	results = fruit.filter(string => string.toLowerCase().includes(lowerCase));
@@ -27,6 +28,7 @@ function searchHandler(e) {
 	let str = e.target.value;
 	let results = search(str);
 
+	
 	//will check if user input is true "containing any string" and will add show class to display results
 	if(input.value){
 		searchContainer.classList.add('show');
@@ -38,13 +40,29 @@ function searchHandler(e) {
 	
  }
 
+ function boldString(str, substr) {
+	let strRegExp = new RegExp(substr, 'g', 'i');
+	return str.replace(strRegExp, '<b>'+substr+'</b>');
+  }
+
 //take list created in search() to make drop down list in search bar
 function showSuggestions(results) {
     // TODO
 	//creating new arry with map method and making a html list element with the results
-	let suggestionItems = results.map(item => `<li>${item}</li>`).join("");
-	suggestions.innerHTML = suggestionItems;
-
+	let suggestionItems = results.map(item => {
+		let str;
+		
+		if(item.toLowerCase().includes(input.value.toLowerCase())){
+			str = boldString(item.toLowerCase(), input.value.toLowerCase());
+			console.log(str)
+		} else {
+			str = item;
+		}
+		return `<li>${str}</li>`;
+	});
+		
+	suggestions.innerHTML = suggestionItems.join("");
+	console.log(suggestionItems)
 	//adding class of show to display results
 	searchContainer.classList.add('show');
 }
